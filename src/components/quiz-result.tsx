@@ -17,12 +17,13 @@ export const QuizResult = ({ result, handleReset }: QuizResultProps) => {
         </span>
       </h2>
       <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-8 lg:flex-row-reverse">
-        <div className="relative aspect-square w-full overflow-hidden rounded-3xl">
+        <div className="relative aspect-square w-full overflow-hidden rounded-3xl shadow-lg">
           <Image
             src={result.image}
             alt={`Resultado ${result.title}`}
             fill
             className="object-cover"
+            placeholder="blur"
           />
         </div>
         <div className="flex w-full flex-col gap-4 text-lg">

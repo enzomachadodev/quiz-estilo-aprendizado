@@ -1,4 +1,8 @@
 import { Question, ResultData, ResultKey } from "./types";
+import exploradorImage from "../../public/explorador.jpeg";
+import executorImage from "../../public/executor.jpeg";
+import pensadorImage from "../../public/pensador.jpeg";
+import observadorImage from "../../public/observador.jpeg";
 
 export const quizQuestions: Question[] = [
   {
@@ -180,7 +184,7 @@ export const quizQuestions: Question[] = [
 
 export const quizResults: Record<ResultKey, ResultData> = {
   EC: {
-    image: "/explorador.jpeg",
+    image: exploradorImage,
     title: "EXPLORADOR",
     description: [
       "Exploradores aprendem melhor através da experiência prática e da ação direta. Eles gostam de se envolver em atividades que lhes permitem experimentar, explorar e descobrir por si mesmos.",
@@ -188,7 +192,7 @@ export const quizResults: Record<ResultKey, ResultData> = {
     ],
   },
   CA: {
-    image: "/observador.jpeg",
+    image: observadorImage,
     title: "OBSERVADOR",
     description: [
       "Observadores preferem aprender observando os outros e refletindo sobre as experiências. Eles são pensadores cuidadosos que analisam as situações antes de agir.",
@@ -196,7 +200,7 @@ export const quizResults: Record<ResultKey, ResultData> = {
     ],
   },
   OR: {
-    image: "/pensador.jpeg",
+    image: pensadorImage,
     title: "PENSADOR",
     description: [
       "Pensadores aprendem melhor através de teorias, modelos abstratos e conceitos. Eles apreciam a lógica e a racionalidade.",
@@ -204,7 +208,7 @@ export const quizResults: Record<ResultKey, ResultData> = {
     ],
   },
   EA: {
-    image: "/executor.jpeg",
+    image: executorImage,
     title: "EXECUTOR",
     description: [
       "Executores aprendem melhor aplicando teorias e conceitos em situações práticas. Eles gostam de ver resultados concretos de suas ações através de resultados tangíveis.",

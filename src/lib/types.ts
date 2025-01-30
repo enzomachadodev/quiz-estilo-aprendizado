@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export enum Result {
   EC = "EC",
   CA = "CA",
@@ -8,7 +10,7 @@ export enum Result {
 export type ResultKey = keyof typeof Result;
 
 export type ResultData = {
-  image: string;
+  image: StaticImageData;
   title: string;
   description: string[];
 };

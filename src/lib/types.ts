@@ -1,10 +1,10 @@
 import { StaticImageData } from "next/image";
 
 export enum Result {
-  EC = "EC",
-  CA = "CA",
-  OR = "OR",
-  EA = "EA",
+  EC = "EXPLORADOR",
+  CA = "OBSERVADOR",
+  OR = "PENSADOR",
+  EA = "EXECUTOR",
 }
 
 export type ResultKey = keyof typeof Result;

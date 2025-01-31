@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Question, ResultKey } from "@/lib/types";
 
 interface AnswersProps {
@@ -7,7 +8,14 @@ interface AnswersProps {
 
 export const Answers = ({ currentQuestion, onClick }: AnswersProps) => {
   return (
-    <div className="flex flex-col gap-10">
+    <motion.div
+      key={currentQuestion.question}
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="flex flex-col gap-10"
+    >
       <h2 className="text-center text-2xl font-semibold text-background sm:text-4xl">
         {currentQuestion.question}
       </h2>
@@ -24,6 +32,6 @@ export const Answers = ({ currentQuestion, onClick }: AnswersProps) => {
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };

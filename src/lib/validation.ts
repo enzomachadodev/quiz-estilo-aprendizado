@@ -18,11 +18,15 @@ export const leadSchema = z.object({
 
 export type LeadSchema = z.infer<typeof leadSchema>;
 
-export const calculateResultSchema = leadSchema.extend({
+export const updateLeadResultSchema = z.object({
+  email: z
+    .string({ required_error: "O e-mail é obrigatório" })
+    .email("Insira um e-mail válido."),
   EC: z.number(),
   EA: z.number(),
   OR: z.number(),
   CA: z.number(),
+  result: z.string(),
 });
 
-export type CalculateResultSchema = z.infer<typeof calculateResultSchema>;
+export type UpdateLeadResultSchema = z.infer<typeof updateLeadResultSchema>;

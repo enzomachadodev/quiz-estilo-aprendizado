@@ -187,32 +187,28 @@ export const quizResults: Record<ResultKey, ResultData> = {
     image: exploradorImage,
     title: "EXPLORADOR",
     description: [
-      "Exploradores aprendem melhor através da experiência prática e da ação direta. Eles gostam de se envolver em atividades que lhes permitem experimentar, explorar e descobrir por si mesmos.",
-      "A mentoria pode ajudar você a aplicar suas ideias e alcançar seus objetivos mais rapidamente.",
+      "Movido pela prática, você aprende experimentando, explorando e descobrindo caminhos próprios. Sua curiosidade é seu maior trunfo!",
     ],
   },
   CA: {
     image: observadorImage,
     title: "OBSERVADOR",
     description: [
-      "Observadores preferem aprender observando os outros e refletindo sobre as experiências. Eles são pensadores cuidadosos que analisam as situações antes de agir.",
-      "A mentoria personalizada pode proporcionar insights valiosos ao observar como outros profissionais atuam.",
+      "Você absorve conhecimento ao observar e refletir sobre o que acontece ao seu redor. Seu olhar atento revela novos caminhos e possibilidades.",
     ],
   },
   OR: {
     image: pensadorImage,
     title: "PENSADOR",
     description: [
-      "Pensadores aprendem melhor através de teorias, modelos abstratos e conceitos. Eles apreciam a lógica e a racionalidade.",
-      "A mentoria pode ajudar você a aplicar suas ideias e alcançar seus objetivos mais rapidamente.",
+      "Você aprecia a lógica e os conceitos abstratos, transformando ideias em estratégias claras. Seu pensamento analítico é um diferencial poderoso!",
     ],
   },
   EA: {
     image: executorImage,
     title: "EXECUTOR",
     description: [
-      "Executores aprendem melhor aplicando teorias e conceitos em situações práticas. Eles gostam de ver resultados concretos de suas ações através de resultados tangíveis.",
-      "A mentoria pode te ajudar a organizar seus próximos passos e alcançar seus objetivos com eficiência.",
+      "Você aprende se movimentando, testando ideias e encontrando suas próprias soluções. Sua curiosidade é um grande diferencial!",
     ],
   },
 };

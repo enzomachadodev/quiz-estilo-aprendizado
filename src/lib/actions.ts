@@ -3,10 +3,14 @@
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { JWT } from "google-auth-library";
 
-import { calculateResultSchema, CalculateResultSchema } from "./validation";
-import { quizResults } from "./data";
-import { ResultKey } from "./types";
+import {
+  leadSchema,
+  LeadSchema,
+  updateLeadResultSchema,
+  UpdateLeadResultSchema,
+} from "./validation";
 import { env } from "./env";
+import console from "console";
 
 const getSheet = async () => {
   const serviceAccountAuth = new JWT({
@@ -20,47 +24,86 @@ const getSheet = async () => {
   return doc.sheetsByIndex[0];
 };
 
-export const calculateResult = async (input: CalculateResultSchema) => {
-  const validatedFields = calculateResultSchema.safeParse(input);
+export const saveLead = async (input: LeadSchema) => {
+  const validatedFields = leadSchema.safeParse(input);
 
   if (!validatedFields.success) {
     return { success: false, error: "Dados inválidos" };
   }
 
-  const { name, email, position, experience, ...score } = validatedFields.data;
+  const { name, email, position, experience } = validatedFields.data;
+
+  const formattedDate = new Date().toLocaleDateString("pt-BR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   try {
     const sheet = await getSheet();
+    const rows = await sheet.getRows();
 
-    const resultKey = Object.entries(score).reduce((a, b) =>
-      b[1] > a[1] ? b : a,
-    )[0] as ResultKey;
+    const leadRow = rows.find((row) => row.get("Email") === email);
 
-    const finalResult = quizResults[resultKey];
+    if (leadRow) {
+      leadRow.set("Data", formattedDate);
+      leadRow.set("Nome", name);
+      leadRow.set("Email", email);
+      leadRow.set("Posição", position);
+      leadRow.set("Experiência", experience);
+    } else {
+      await sheet.addRow({
+        Data: formattedDate,
+        Nome: name,
+        Email: email,
+        Posição: position,
+        Experiência: experience,
+        EC: 0,
+        CA: 0,
+        OR: 0,
+        EA: 0,
+        "Resultado Final": "",
+      });
+    }
 
-    const formattedDate = new Date().toLocaleDateString("pt-BR", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    await sheet.addRow({
-      Data: formattedDate,
-      Nome: name,
-      Email: email,
-      Posição: position,
-      Experiência: experience,
-      EC: score.EC,
-      CA: score.CA,
-      OR: score.OR,
-      EA: score.EA,
-      "Resultado Final": finalResult.title,
-    });
-
-    return { success: true, data: finalResult };
+    return { success: true };
   } catch (error) {
-    console.error("Erro ao salvar no Google Sheets:", error);
+    console.error("Erro ao salvar dados do usuário:", error);
     return { success: false, error: "Erro ao salvar os dados." };
+  }
+};
+
+export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
+  const validatedFields = updateLeadResultSchema.safeParse(input);
+
+  if (!validatedFields.success) {
+    return { success: false, error: "Dados inválidos" };
+  }
+
+  const { email, result, ...score } = validatedFields.data;
+
+  try {
+    const sheet = await getSheet();
+    const rows = await sheet.getRows();
+
+    const leadRow = rows.find((row) => row.get("Email") === email);
+
+    if (!leadRow) {
+      return { success: false, error: "Usuário não encontrado na planilha." };
+    }
+
+    leadRow.set("EC", score.EC);
+    leadRow.set("CA", score.CA);
+    leadRow.set("OR", score.OR);
+    leadRow.set("EA", score.EA);
+    leadRow.set("Resultado Final", result);
+
+    await leadRow.save();
+
+    return { success: true };
+  } catch (error) {
+    console.error("Erro ao atualizar o resultado do usuário:", error);
+    return { success: false, error: "Erro ao atualizar os dados." };
   }
 };

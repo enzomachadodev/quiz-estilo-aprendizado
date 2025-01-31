@@ -1,5 +1,6 @@
-import { ResultData } from "@/lib/types";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { ResultData } from "@/lib/types";
 import { Button } from "./ui/button";
 
 interface QuizResultProps {
@@ -9,7 +10,14 @@ interface QuizResultProps {
 
 export const QuizResult = ({ result, handleReset }: QuizResultProps) => {
   return (
-    <div className="wrapper flex flex-col gap-8 py-10 text-background">
+    <motion.div
+      key={result.title}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="wrapper flex flex-col gap-8 py-10 text-background"
+    >
       <h2 className="text-center text-3xl font-semibold sm:text-5xl sm:leading-[60px]">
         O seu perfil de aprendizagem é:{" "}
         <span className="leading-[40px] text-secondary sm:leading-[60px]">
@@ -32,12 +40,13 @@ export const QuizResult = ({ result, handleReset }: QuizResultProps) => {
               {text}
             </p>
           ))}
-          <p className="font-medium">A jornada não para por aqui!</p>
-          <p className="font-medium">
-            Além de revelar seu estilo de aprendizagem, estamos enviando um
-            e-mail com uma análise personalizada. Esse e-mail inclui insights
-            sobre o seu resultado e uma sugestão de plano de mentoria, para
-            ajudá-lo a potencializar seu desenvolvimento 🚀
+          <p className="text-xl font-semibold">Isso é só o começo!</p>
+          <p className="">
+            Confira nosso e-mail com uma análise completa sobre o seu perfil de
+            aprendizagem. Se prepare — insights valiosos estão a caminho🚀
+          </p>
+          <p className="text-base text-muted">
+            *Se não chegar na sua caixa de entrada confira na caixa de SPAM.
           </p>
           <Button
             className="mt-4 lg:w-fit"
@@ -49,6 +58,6 @@ export const QuizResult = ({ result, handleReset }: QuizResultProps) => {
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

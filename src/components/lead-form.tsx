@@ -11,6 +11,7 @@ import {
 } from "./ui/form";
 import { leadSchema, LeadSchema } from "@/lib/validation";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -44,9 +45,16 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
   });
 
   return (
-    <div className="flex flex-col gap-10">
+    <motion.div
+      key="lead-form"
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-6 py-10"
+    >
       <h2 className="text-center text-2xl font-semibold text-background sm:text-4xl">
-        Antes revelar seu resultado, precisamos fazer algumas perguntas rápidas.
+        Antes de iniciarmos, precisamos fazer algumas perguntas rápidas.
       </h2>
       <Card className="p-6">
         <Form {...form}>
@@ -163,11 +171,11 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
               className="w-full"
               loading={loading}
             >
-              Ver Resultado
+              Iniciar Teste
             </Button>
           </form>
         </Form>
       </Card>
-    </div>
+    </motion.div>
   );
 };

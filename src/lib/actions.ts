@@ -92,6 +92,12 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
     if (!leadRow) {
       return { success: false, error: "Usuário não encontrado na planilha." };
     }
+    
+    const name = leadRow.get("Nome") || "Nome não encontrado";
+    const position = leadRow.get("Posição") || "Posição não encontrada";
+    const experience = leadRow.get("Experiência") || "Experiência não encontrada";
+    
+    console.log("Dados recuperados:", { name, position, experience });
 
     leadRow.set("EC", score.EC);
     leadRow.set("CA", score.CA);
@@ -100,6 +106,29 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
     leadRow.set("Resultado Final", result);
 
     await leadRow.save();
+    
+    const payload = {
+      nome: name,
+      email: email,
+      cargo: position,
+      experiencia: experience,
+      resultado: result,
+      pontuação: score,
+      timestamp: new Date().toISOString(),
+    };
+    
+    console.log("Enviando dados para o webhook do n8n...", payload);
+
+    const response = await fetch("https://n8n.ementor.com.br/webhook/0ca6a4b1-8580-43a5-99f2-7fc98b9407f4", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const responseData = await response.json();
+    console.log("Resposta do webhook:", responseData);
 
     return { success: true };
   } catch (error) {

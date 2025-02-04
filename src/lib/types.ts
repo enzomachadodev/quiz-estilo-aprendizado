@@ -31,6 +31,7 @@ export enum Position {
   Coordenador = "Coordenador",
   Gerente = "Gerente",
   Diretor = "Diretor",
+  Empreendedor = "Empreendedor"
 }
 
 export enum Experience {

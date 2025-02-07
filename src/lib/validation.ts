@@ -8,6 +8,12 @@ export const leadSchema = z.object({
   email: z
     .string({ required_error: "O e-mail é obrigatório" })
     .email("Insira um e-mail válido."),
+  phone: z
+    .string({ required_error: "O telefone é obrigatório" })
+    .trim()
+    .regex(/^\+?[0-9\s()-]+$/, "Insira um telefone válido")
+    .min(10, "O telefone deve ter pelo menos 10 dígitos")
+    .max(15, "O telefone deve ter no máximo 15 dígitos"),
   position: z.nativeEnum(Position, {
     required_error: "Por favor, selecione uma opção",
   }),

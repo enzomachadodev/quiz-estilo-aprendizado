@@ -31,7 +31,7 @@ export const saveLead = async (input: LeadSchema) => {
     return { success: false, error: "Dados inválidos" };
   }
 
-  const { name, email, position, experience } = validatedFields.data;
+  const { name, email, phone, position, experience } = validatedFields.data;
 
   const formattedDate = new Date().toLocaleDateString("pt-BR", {
     weekday: "long",
@@ -50,13 +50,17 @@ export const saveLead = async (input: LeadSchema) => {
       leadRow.set("Data", formattedDate);
       leadRow.set("Nome", name);
       leadRow.set("Email", email);
+      leadRow.set("Telefone", phone);
       leadRow.set("Posição", position);
       leadRow.set("Experiência", experience);
+
+      await leadRow.save();
     } else {
       await sheet.addRow({
         Data: formattedDate,
         Nome: name,
         Email: email,
+        Telefone: phone,
         Posição: position,
         Experiência: experience,
         EC: 0,
@@ -92,11 +96,12 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
     if (!leadRow) {
       return { success: false, error: "Usuário não encontrado na planilha." };
     }
-    
+
     const name = leadRow.get("Nome") || "Nome não encontrado";
     const position = leadRow.get("Posição") || "Posição não encontrada";
-    const experience = leadRow.get("Experiência") || "Experiência não encontrada";
-    
+    const experience =
+      leadRow.get("Experiência") || "Experiência não encontrada";
+
     console.log("Dados recuperados:", { name, position, experience });
 
     leadRow.set("EC", score.EC);
@@ -106,7 +111,7 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
     leadRow.set("Resultado Final", result);
 
     await leadRow.save();
-    
+
     const payload = {
       nome: name,
       email: email,
@@ -116,16 +121,19 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
       pontuação: score,
       timestamp: new Date().toISOString(),
     };
-    
+
     console.log("Enviando dados para o webhook do n8n...", payload);
 
-    const response = await fetch("https://n8n.ementor.com.br/webhook/0ca6a4b1-8580-43a5-99f2-7fc98b9407f4", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://n8n.ementor.com.br/webhook/0ca6a4b1-8580-43a5-99f2-7fc98b9407f4",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       },
-      body: JSON.stringify(payload),
-    });
+    );
 
     const responseData = await response.json();
     console.log("Resposta do webhook:", responseData);

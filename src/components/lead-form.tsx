@@ -39,6 +39,7 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
     defaultValues: {
       name: "",
       email: "",
+      phone: "",
       position: undefined,
       experience: undefined,
     },
@@ -143,7 +144,24 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Qual é o seu telefone?</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="tel"
+                      placeholder="Ex: 551198765-4321"
+                      disabled={loading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"

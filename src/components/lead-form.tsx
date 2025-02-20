@@ -154,7 +154,7 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
                     <Input
                       {...field}
                       type="tel"
-                      placeholder="Ex: 5511987654321"
+                      placeholder="Ex: 11999887766"
                       disabled={loading}
                     />
                   </FormControl>

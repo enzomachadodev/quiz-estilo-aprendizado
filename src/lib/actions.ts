@@ -98,11 +98,12 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
     }
 
     const name = leadRow.get("Nome") || "Nome não encontrado";
+    const phone = leadRow.get("Telefone") || "Telefone não encontrado";
     const position = leadRow.get("Posição") || "Posição não encontrada";
     const experience =
       leadRow.get("Experiência") || "Experiência não encontrada";
 
-    console.log("Dados recuperados:", { name, position, experience });
+    console.log("Dados recuperados:", { name, phone, position, experience });
 
     leadRow.set("EC", score.EC);
     leadRow.set("CA", score.CA);
@@ -115,6 +116,7 @@ export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
     const payload = {
       nome: name,
       email: email,
+      telefone: phone,
       cargo: position,
       experiencia: experience,
       resultado: result,

@@ -149,7 +149,7 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Qual é o seu telefone?</FormLabel>
+                  <FormLabel>Qual é o seu whatsapp com DDD?</FormLabel>
                   <FormControl>
                     <Input
                       {...field}

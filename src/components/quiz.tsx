@@ -50,6 +50,9 @@ const quizReducer = (state: State, action: Action): State => {
         currentQuestion: state.currentQuestion + 1,
       };
     case "GO_BACK":
+      if (state.currentQuestion === 0) {
+        return { ...state, leadData: null };
+      }
       return {
         ...state,
         currentQuestion: Math.max(state.currentQuestion - 1, 0),
@@ -141,7 +144,7 @@ export const Quiz = () => {
             variant="ghost"
             size="sm"
             className="mx-auto flex w-fit items-center gap-0.5 text-sm font-medium text-background hover:bg-background/10 hover:text-background"
-            disabled={state.currentQuestion <= 0 || isPending}
+            disabled={isPending}
           >
             <ChevronLeft />
             Voltar

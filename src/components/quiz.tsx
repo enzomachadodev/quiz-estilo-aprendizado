@@ -11,7 +11,7 @@ import { LeadSchema } from "@/lib/validation";
 import { QuizResult } from "./quiz-result";
 import { QuizIntro } from "./quiz-intro";
 import { Button } from "./ui/button";
-import { saveLead, updateLeadResult } from "@/lib/actions";
+import { saveLeadResult } from "@/lib/actions";
 import { toast } from "sonner";
 
 const initialState = {
@@ -78,8 +78,7 @@ export const Quiz = () => {
 
     dispatch({ type: "ANSWER_QUESTION", payload: updatedScore });
 
-    const isLastQuestion = state.currentQuestion === quizQuestions.length - 1;
-    if (isLastQuestion) {
+    if (state.currentQuestion === quizQuestions.length - 1) {
       const resultKey = Object.entries(updatedScore).reduce((a, b) =>
         b[1] > a[1] ? b : a,
       )[0] as ResultKey;
@@ -87,29 +86,27 @@ export const Quiz = () => {
       const resultData = quizResults[resultKey];
 
       dispatch({ type: "SET_RESULT", payload: resultData });
-
-      if (state.leadData) {
-        const res = await updateLeadResult({
-          email: state.leadData.email,
-          result: resultData.title,
-          ...updatedScore,
-        });
-        if (res.error) {
-          console.log("Erro ao atualizar informações: ", res.error);
-        }
-      }
     }
   };
 
   const handleSubmitLeadForm = async (values: LeadSchema) => {
     startTransition(async () => {
-      const res = await saveLead(values);
-      if (!res.success) {
-        console.error("Erro na API: ", res.error);
-        toast.error(res.error || "Erro desconhecido.");
-        return;
+      if (state.quizResult) {
+        const res = await saveLeadResult({
+          ...values,
+          result: state.quizResult.title,
+          ...state.score,
+        });
+        if (!res.success) {
+          console.error("Erro na API: ", res.error);
+          toast.error(res.error || "Erro desconhecido.");
+          return;
+        }
+
+        dispatch({ type: "SET_LEAD_DATA", payload: values });
+      } else {
+        console.error("Ocorreu um erro inesperado!");
       }
-      dispatch({ type: "SET_LEAD_DATA", payload: values });
     });
   };
 
@@ -119,11 +116,11 @@ export const Quiz = () => {
     return <QuizIntro handleStart={() => dispatch({ type: "START_QUIZ" })} />;
   }
 
-  if (state.hasStarted && !state.leadData) {
+  if (state.hasStarted && !state.leadData && state.quizResult) {
     return <LeadForm onSubmit={handleSubmitLeadForm} loading={isPending} />;
   }
 
-  if (state.quizResult) {
+  if (state.hasStarted && state.leadData && state.quizResult) {
     return <QuizResult result={state.quizResult} handleReset={resetQuiz} />;
   }
 

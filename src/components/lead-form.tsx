@@ -55,7 +55,8 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
       className="mx-auto flex w-full max-w-2xl flex-col gap-10 px-6 py-10"
     >
       <h2 className="text-center text-2xl font-semibold text-background sm:text-4xl">
-        Antes de iniciarmos, precisamos fazer algumas perguntas rápidas.
+        Antes de revelarmos seu resultado, precisamos que você responda algumas
+        perguntas rápidas.
       </h2>
       <Card className="p-6">
         <Form {...form}>
@@ -189,7 +190,7 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
               className="w-full"
               loading={loading}
             >
-              Iniciar Teste
+              Ver Resultado
             </Button>
           </form>
         </Form>

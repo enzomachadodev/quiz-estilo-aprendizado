@@ -9,10 +9,26 @@ export enum Result {
 
 export type ResultKey = keyof typeof Result;
 
+export enum Plan {
+  silver = "Silver",
+  gold = "Gold",
+  black = "Black",
+  prime = "Prime",
+}
+
+export type PlanKey = keyof typeof Plan;
+
+export type PlanData = {
+  title: string;
+  price: string;
+  description: string;
+  link: string;
+};
+
 export type ResultData = {
   image: StaticImageData;
   title: string;
-  description: string[];
+  description: (name: string) => string;
 };
 
 export type Answer = {
@@ -31,7 +47,7 @@ export enum Position {
   Coordenador = "Coordenador",
   Gerente = "Gerente",
   Diretor = "Diretor",
-  Empreendedor = "Empreendedor"
+  Empreendedor = "Empreendedor",
 }
 
 export enum Experience {

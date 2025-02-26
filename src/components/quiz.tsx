@@ -121,7 +121,13 @@ export const Quiz = () => {
   }
 
   if (state.hasStarted && state.leadData && state.quizResult) {
-    return <QuizResult result={state.quizResult} handleReset={resetQuiz} />;
+    return (
+      <QuizResult
+        leadData={state.leadData}
+        quizResult={state.quizResult}
+        handleReset={resetQuiz}
+      />
+    );
   }
 
   if (state.currentQuestion <= quizQuestions.length) {

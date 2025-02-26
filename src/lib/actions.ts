@@ -27,7 +27,6 @@ const getSheet = async () => {
 };
 
 export const saveLeadResult = async (input: LeadResultSchema) => {
-  console.log("PASSOU AQUI");
   const validatedFields = leadResultSchema.safeParse(input);
 
   if (!validatedFields.success) {

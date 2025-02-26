@@ -27,7 +27,6 @@ const getSheet = async () => {
 };
 
 export const saveLeadResult = async (input: LeadResultSchema) => {
-  console.log("PASSOU AQUI");
   const validatedFields = leadResultSchema.safeParse(input);
 
   if (!validatedFields.success) {
@@ -44,78 +43,80 @@ export const saveLeadResult = async (input: LeadResultSchema) => {
     day: "numeric",
   });
 
-  try {
-    const sheet = await getSheet();
-    const rows = await sheet.getRows();
+  //   try {
+  //     const sheet = await getSheet();
+  //     const rows = await sheet.getRows();
 
-    const leadRow = rows.find((row) => row.get("Email") === email);
+  //     const leadRow = rows.find((row) => row.get("Email") === email);
 
-    if (leadRow) {
-      leadRow.set("Data", formattedDate);
-      leadRow.set("Nome", name);
-      leadRow.set("Email", email);
-      leadRow.set("Telefone", phone);
-      leadRow.set("Posição", position);
-      leadRow.set("Experiência", experience);
-      leadRow.set("EC", score.EC);
-      leadRow.set("CA", score.CA);
-      leadRow.set("OR", score.OR);
-      leadRow.set("EA", score.EA);
-      leadRow.set("Resultado Final", result);
+  //     if (leadRow) {
+  //       leadRow.set("Data", formattedDate);
+  //       leadRow.set("Nome", name);
+  //       leadRow.set("Email", email);
+  //       leadRow.set("Telefone", phone);
+  //       leadRow.set("Posição", position);
+  //       leadRow.set("Experiência", experience);
+  //       leadRow.set("EC", score.EC);
+  //       leadRow.set("CA", score.CA);
+  //       leadRow.set("OR", score.OR);
+  //       leadRow.set("EA", score.EA);
+  //       leadRow.set("Resultado Final", result);
 
-      await leadRow.save();
+  //       await leadRow.save();
 
-      console.log("LINHA SALVA");
-    } else {
-      await sheet.addRow({
-        Data: formattedDate,
-        Nome: name,
-        Email: email,
-        Telefone: phone,
-        Posição: position,
-        Experiência: experience,
-        EC: score.EC,
-        CA: score.CA,
-        OR: score.OR,
-        EA: score.EA,
-        "Resultado Final": result,
-      });
+  //       console.log("LINHA SALVA");
+  //     } else {
+  //       await sheet.addRow({
+  //         Data: formattedDate,
+  //         Nome: name,
+  //         Email: email,
+  //         Telefone: phone,
+  //         Posição: position,
+  //         Experiência: experience,
+  //         EC: score.EC,
+  //         CA: score.CA,
+  //         OR: score.OR,
+  //         EA: score.EA,
+  //         "Resultado Final": result,
+  //       });
 
-      console.log("LINHA CRIADA");
-    }
+  //       console.log("LINHA CRIADA");
+  //     }
 
-    const payload = {
-      nome: name,
-      email: email,
-      telefone: phone,
-      cargo: position,
-      experiencia: experience,
-      resultado: result,
-      pontuação: score,
-      timestamp: new Date().toISOString(),
-    };
+  //     const payload = {
+  //       nome: name,
+  //       email: email,
+  //       telefone: phone,
+  //       cargo: position,
+  //       experiencia: experience,
+  //       resultado: result,
+  //       pontuação: score,
+  //       timestamp: new Date().toISOString(),
+  //     };
 
-    console.log("Enviando dados para o webhook do n8n...", payload);
+  //     console.log("Enviando dados para o webhook do n8n...", payload);
 
-    const response = await fetch(
-      "https://n8n.ementor.com.br/webhook/0ca6a4b1-8580-43a5-99f2-7fc98b9407f4",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      },
-    );
+  //     const response = await fetch(
+  //       "https://n8n.ementor.com.br/webhook/0ca6a4b1-8580-43a5-99f2-7fc98b9407f4",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(payload),
+  //       },
+  //     );
 
-    const responseData = await response.json();
-    console.log("Resposta do webhook:", responseData);
+  //     const responseData = await response.json();
+  //     console.log("Resposta do webhook:", responseData);
 
-    return { success: true };
-  } catch (error) {
-    console.error("Erro ao salvar dados do usuário:", error);
-    return { success: false, error: "Erro ao salvar os dados." };
-  }
+  //     return { success: true };
+  //   } catch (error) {
+  //     console.error("Erro ao salvar dados do usuário:", error);
+  //     return { success: false, error: "Erro ao salvar os dados." };
+  //   }
+
+  return { success: true };
 };
 
 export const saveLead = async (input: LeadSchema) => {

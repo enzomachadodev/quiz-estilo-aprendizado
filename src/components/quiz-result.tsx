@@ -1,63 +1,88 @@
+"use client";
+
 import Image from "next/image";
+import ReactMarkdown, { Components } from "react-markdown";
 import { motion } from "framer-motion";
-import { ResultData } from "@/lib/types";
+import { PlanKey, ResultData } from "@/lib/types";
+import { planMark, plans } from "@/lib/data";
 import { Button } from "./ui/button";
+import Link from "next/link";
+import { LeadSchema } from "@/lib/validation";
 
 interface QuizResultProps {
-  result: ResultData;
+  leadData: LeadSchema;
+  quizResult: ResultData;
   handleReset: () => void;
 }
 
-export const QuizResult = ({ result, handleReset }: QuizResultProps) => {
+const markdownComponents: Components = {
+  h2: ({ children }) => (
+    <h2 className="mb-4 text-2xl font-semibold">{children}</h2>
+  ),
+  h3: ({ children }) => (
+    <h3 className="mb-3 text-xl font-medium">{children}</h3>
+  ),
+  p: ({ children }) => <p className="mb-3 text-lg font-normal">{children}</p>,
+  strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+};
+
+const positionToPlanMap = new Map<string, PlanKey>([
+  ["Assistente", "silver"],
+  ["Analista", "gold"],
+  ["Coordenador", "gold"],
+  ["Gerente", "black"],
+  ["Diretor", "prime"],
+  ["Empreendedor", "prime"],
+]);
+
+export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
+  const planKey = positionToPlanMap.get(leadData.position) || "black";
+  const leadPlan = plans[planKey];
+  const planMarkdown = planMark(leadPlan);
+
   return (
     <motion.div
-      key={result.title}
+      key={quizResult.title}
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="wrapper flex flex-col gap-8 py-10 text-background"
+      className="wrapper flex flex-col py-10 text-background"
     >
       <h2 className="text-center text-3xl font-semibold sm:text-5xl sm:leading-[60px]">
         O seu perfil de aprendizagem é:{" "}
         <span className="leading-[40px] text-secondary sm:leading-[60px]">
-          {result.title}
+          {quizResult.title}
         </span>
       </h2>
-      <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-8 lg:flex-row-reverse">
-        <div className="relative aspect-square w-full overflow-hidden rounded-3xl shadow-lg">
-          <Image
-            src={result.image}
-            alt={`Resultado ${result.title}`}
-            fill
-            className="object-cover"
-            placeholder="blur"
-          />
-        </div>
-        <div className="flex w-full flex-col gap-4 text-lg">
-          {result.description.map((text, index) => (
-            <p key={index} className="">
-              {text}
-            </p>
-          ))}
-          <p className="text-xl font-semibold">Isso é só o começo!</p>
-          <p className="">
-            Confira nosso e-mail com uma análise completa sobre o seu perfil de
-            aprendizagem. Se prepare — insights valiosos estão a caminho🚀
-          </p>
-          <p className="text-base text-muted">
-            *Se não chegar na sua caixa de entrada confira na caixa de SPAM.
-          </p>
-          <Button
-            className="mt-4 lg:w-fit"
-            size="lg"
-            variant="secondary"
-            onClick={handleReset}
-          >
-            Reiniciar teste
-          </Button>
-        </div>
+      <div className="relative mx-auto my-8 aspect-square max-h-[500px] w-full max-w-[500px] overflow-hidden rounded-3xl">
+        <Image
+          src={quizResult.image}
+          alt={`Resultado ${quizResult.title}`}
+          fill
+          className="object-cover"
+          placeholder="blur"
+        />
       </div>
+      <ReactMarkdown components={markdownComponents}>
+        {quizResult.description(leadData.name)}
+      </ReactMarkdown>
+      <ReactMarkdown components={markdownComponents}>
+        {planMarkdown.description}
+      </ReactMarkdown>
+      <Button
+        asChild
+        variant="secondary"
+        size="lg"
+        className="mx-auto my-8 h-auto text-wrap rounded-xl py-4 text-center text-xl text-black sm:w-fit"
+      >
+        <Link href={leadPlan.link} target="_blank" rel="noopener noreferrer">
+          Quero levar meu aprendizado para o próximo nível!
+        </Link>
+      </Button>
+      <ReactMarkdown components={markdownComponents}>
+        {planMarkdown.offer}
+      </ReactMarkdown>
     </motion.div>
   );
 };

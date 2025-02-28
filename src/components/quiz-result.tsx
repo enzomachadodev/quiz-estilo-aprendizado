@@ -174,12 +174,9 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
               forma contínua.
             </p>
             <p>
-              Vamos conversar sobre como encaixar isso na sua carreira? Nosso
-              time pode te ajudar a entender como o{" "}
-              <strong>{leadPlan.title}</strong> pode se conectar aos seus
-              desafios profissionais – e, se achar que outra opção faz mais
-              sentido para você, também podemos te ajudar a escolher o melhor
-              plano para o seu perfil.
+              Toque no botão abaixo para assinar o{" "}
+              <strong>{leadPlan.title}</strong> e garantir 2 mentorias por mês
+              com um desconto de 40%
             </p>
             <ActionButton
               link={leadPlan.link}
@@ -187,9 +184,10 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
             />
           </div>
         </div>
-        <div className="flex w-full flex-col items-center gap-8 py-14">
-          <p className="text-xl text-background">
-            Dúvidas? Entre em contato conosco.
+        <div className="flex w-full flex-col items-center gap-8 px-6 py-14">
+          <p className="text-center text-xl text-background">
+            Ficou com dúvidas? Fale com nosso time, vamos te ajudar a entender
+            qual o melhor plano para os seus desafios atuais.
           </p>
           <Button
             size="lg"

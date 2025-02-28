@@ -155,7 +155,7 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
       </section>
       <section className="w-full py-14">
         <div className="wrapper flex flex-col items-center gap-14">
-          <div className="flex w-full flex-col gap-4 rounded-3xl bg-background p-6 text-center md:p-10">
+          <div className="flex w-full flex-col gap-4 rounded-3xl bg-background max-w-3xl p-6 text-center md:p-8">
             <h2 className="section-title text-primary">
               Você está pronto para levar sua jornada ao próximo nível? 🚀
             </h2>

@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import { IconType } from "react-icons";
 
 export enum Result {
   EC = "EXPLORADOR",
@@ -25,10 +26,24 @@ export type PlanData = {
   link: string;
 };
 
+export type Personality = {
+  image: StaticImageData;
+  name: string;
+  description: string;
+};
+
+export type Recomendation = {
+  icon: IconType;
+  title: string;
+  description: string;
+};
+
 export type ResultData = {
   image: StaticImageData;
-  title: string;
-  description: (name: string) => string;
+  name: string;
+  description: string;
+  personality: Personality[];
+  recomendations: Recomendation[];
 };
 
 export type Answer = {

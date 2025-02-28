@@ -1,8 +1,27 @@
 import { PlanData, PlanKey, Question, ResultData, ResultKey } from "./types";
+import {
+  FaBrain,
+  FaHourglassHalf,
+  FaMagnifyingGlassChart,
+  FaPuzzlePiece,
+  FaRocket,
+  FaScaleBalanced,
+  FaShieldHalved,
+} from "react-icons/fa6";
+
 import exploradorImage from "../../public/explorador.jpeg";
 import executorImage from "../../public/executor.jpeg";
 import pensadorImage from "../../public/pensador.jpeg";
 import observadorImage from "../../public/observador.jpeg";
+
+import albert from "../../public/albert.jpg";
+import bill from "../../public/bill.jpg";
+import elon from "../../public/elon.jpg";
+import jeff from "../../public/jeff.jpg";
+import mahatma from "../../public/mahatma.jpg";
+import steve from "../../public/steve.jpg";
+import walt from "../../public/walt.jpg";
+import stephen from "../../public/stephen.jpg";
 
 export const quizQuestions: Question[] = [
   {
@@ -230,7 +249,7 @@ Founder da eMentor
 export const plans: Record<PlanKey, PlanData> = {
   silver: {
     title: "Plano Silver Trimestral",
-    price: "R$ 147/mês",
+    price: "R$ 147",
     description:
       "Ideal para quem está no início da sua jornada profissional e busca um primeiro contato com a mentoria, antecipando problemas e sugerindo melhorias.",
     link: "https://buy.stripe.com/3csbMK4bo9rkc2QdRg",
@@ -238,21 +257,21 @@ export const plans: Record<PlanKey, PlanData> = {
 
   gold: {
     title: "Plano Gold Trimestral",
-    price: "R$ 297/mês",
+    price: "R$ 297",
     description:
       "Ideal para quem está em uma posição de responsabilidade, transformando dados em estratégias e buscando soluções inovadoras para desafios estratégicos.",
     link: "https://buy.stripe.com/9AQ8Ay37k4704AobJ9",
   },
   black: {
     title: "Plano Black Trimestral",
-    price: "R$ 597/mês",
+    price: "R$ 597",
     description:
       "Ideal para quem está liderando equipes e projetos complexos, transformando dados em estratégias e buscando soluções inovadoras para desafios estratégicos.",
     link: "https://buy.stripe.com/7sI6sqazMgTM6Iw4gI",
   },
   prime: {
     title: "Plano Prime Trimestral",
-    price: "R$ 1.397/mês",
+    price: "R$ 1.397",
     description:
       "Ideal para quem está em uma posição de liderança, transformando dados em estratégias e buscando soluções inovadoras para desafios estratégicos.",
     link: "https://buy.stripe.com/aEU3ge23g1YS4AocNf",
@@ -262,134 +281,166 @@ export const plans: Record<PlanKey, PlanData> = {
 export const quizResults: Record<ResultKey, ResultData> = {
   CA: {
     image: observadorImage,
-    title: "EXPLORADOR",
-    description: (name: string) => `
-**Olá, ${name},**    
-    
-Parabéns por completar nosso quiz! Ficamos felizes em compartilhar que seu estilo de aprendizado é o **OBSERVADOR**.
-
-Pessoas com o perfil Observador têm uma capacidade única de entender contextos complexos e enxergar nuances que passam despercebidas por muitos. São atentas, reflexivas e analíticas, sempre buscando entender o cenário por completo antes de agir. Essa habilidade é um grande diferencial em qualquer área da vida – desde decisões profissionais estratégicas até a forma como lidam com desafios diários.
-
-## **🌟 Você está entre mentes brilhantes!**
-
-**Mahatma Gandhi** – Líder cuja reflexão profunda sobre a sociedade e as mudanças necessárias o levou a guiar um movimento transformador de paz e independência.
-
-**Bill Gates** – Fundador da Microsoft, conhecido pela sua análise meticulosa do mercado e das tecnologias emergentes, sempre um passo à frente em suas decisões estratégicas.
-
-Assim como eles, seu potencial está na sua habilidade de avaliar cenários e tomar decisões bem fundamentadas. Mas será que **você está aproveitando ao máximo essa característica no seu crescimento profissional?**
-
-## **📌 Como potencializar seu estilo Observador?**
-
-**Equilibre análise e ação**
-
-Refletir antes de agir é uma de suas maiores forças. Mas algumas oportunidades exigem decisões rápidas. Praticar o equilíbrio entre análise e execução pode ser o diferencial para alcançar resultados ainda mais expressivos.
-
-**Busque diferentes perspectivas**
-
-Sua visão profunda pode ser ampliada quando você se expõe a novos pontos de vista. Conversar com especialistas, entrar em discussões estratégicas e explorar diferentes maneiras de enxergar um mesmo problema pode levar você a descobertas incríveis.
-
-**Aprendizado contínuo: a chave para decisões ainda mais estratégicas**
-
-A melhor forma de consolidar sua evolução como Observador é aprimorar sua capacidade de análise com orientação especializada. **É aqui que entra a mentoria.**
-    `,
+    name: "Observador",
+    description:
+      "Pessoas com o perfil Observador têm uma capacidade única de entender contextos complexos e enxergar nuances que passam despercebidas por muitos. São atentas, reflexivas e analíticas, sempre buscando entender o cenário por completo antes de agir. Essa habilidade é um grande diferencial em qualquer área da vida – desde decisões profissionais estratégicas até a forma como lidam com desafios diários.",
+    personality: [
+      {
+        image: mahatma,
+        name: "Mahatma Gandhi",
+        description:
+          "Líder cuja reflexão profunda sobre a sociedade e as mudanças necessárias o levou a guiar um movimento transformador de paz e independência.",
+      },
+      {
+        image: bill,
+        name: "Bill Gates",
+        description:
+          "Fundador da Microsoft, conhecido pela sua análise meticulosa do mercado e das tecnologias emergentes, sempre um passo à frente em suas decisões estratégicas.",
+      },
+    ],
+    recomendations: [
+      {
+        icon: FaScaleBalanced,
+        title: "Equilibre análise e ação",
+        description:
+          "Refletir antes de agir é uma de suas maiores forças. Mas algumas oportunidades exigem decisões rápidas. Praticar o equilíbrio entre análise e execução pode ser o diferencial para alcançar resultados ainda mais expressivos.",
+      },
+      {
+        icon: FaMagnifyingGlassChart,
+        title: "Busque diferentes perspectivas",
+        description:
+          "Sua visão profunda pode ser ampliada quando você se expõe a novos pontos de vista. Conversar com especialistas, entrar em discussões estratégicas e explorar diferentes maneiras de enxergar um mesmo problema pode levar você a descobertas incríveis.",
+      },
+      {
+        icon: FaBrain,
+        title:
+          "Aprendizado contínuo: a chave para decisões ainda mais estratégicas",
+        description:
+          "A melhor forma de consolidar sua evolução como Observador é aprimorar sua capacidade de análise com orientação especializada. É aqui que entra a mentoria.",
+      },
+    ],
   },
   EC: {
     image: exploradorImage,
-    title: "EXPLORADOR",
-    description: (name: string) => `
-**Olá, ${name},**
-
-Parabéns por completar nosso quiz! Ficamos felizes em compartilhar que seu estilo de aprendizado é o **EXPLORADOR**.
-
-Pessoas com o perfil Explorador são conhecidas por sua curiosidade insaciável e desejo de desbravar o desconhecido. Elas são inovadoras, aventureiras e sempre em busca de novas oportunidades. Essa habilidade é essencial para profissionais que estão começando suas carreiras e querem explorar todas as possibilidades.
-
-## **🌟 Você está entre mentes brilhantes!**
-
-**Elon Musk** – O visionário por trás da Tesla e SpaceX, conhecido por sua capacidade de explorar novas fronteiras e transformar indústrias inteiras.
-
-**Jeff Bezos** – Fundador da Amazon, que revolucionou o comércio eletrônico e continua a explorar novas possibilidades com sua empresa de exploração espacial, Blue Origin.
-
-Assim como eles, seu potencial está na sua capacidade de explorar e inovar. Mas será que **você está aproveitando ao máximo essa característica no seu crescimento profissional?**
-
-## **📌 Como potencializar seu estilo Explorador?**
-
-**Abrace a experimentação**
-
-Sua disposição para experimentar e explorar é uma força. Não tenha medo de testar novas ideias e abordagens, mesmo que isso signifique correr riscos calculados.
-
-**Cultive a resiliência**
-
-Explorar o desconhecido pode ser desafiador. Desenvolva a resiliência para lidar com contratempos e aprender com os fracassos, transformando-os em oportunidades de crescimento.
-
-**Mentoria como catalisador de resultados**
-
-Ter um mentor experiente pode ajudar a refinar suas habilidades de exploração e inovação. Alguém que já enfrentou desafios semelhantes pode oferecer insights valiosos e ajudar a acelerar seu crescimento profissional.
-    `,
+    name: "Explorador",
+    description:
+      "Pessoas com o perfil Explorador são conhecidas por sua curiosidade insaciável e desejo de desbravar o desconhecido. Elas são inovadoras, aventureiras e sempre em busca de novas oportunidades. Essa habilidade é essencial para profissionais que estão começando suas carreiras e querem explorar todas as possibilidades.",
+    personality: [
+      {
+        image: elon,
+        name: "Elon Musk",
+        description:
+          "O visionário por trás da Tesla e SpaceX, conhecido por sua capacidade de explorar novas fronteiras e transformar indústrias inteiras.",
+      },
+      {
+        image: jeff,
+        name: "Jeff Bezos",
+        description:
+          "Fundador da Amazon, que revolucionou o comércio eletrônico e continua a explorar novas possibilidades com sua empresa de exploração espacial, Blue Origin.",
+      },
+    ],
+    recomendations: [
+      {
+        icon: FaRocket,
+        title: "Abrace a experimentação",
+        description:
+          "Sua disposição para experimentar e explorar é uma força. Não tenha medo de testar novas ideias e abordagens, mesmo que isso signifique correr riscos calculados.",
+      },
+      {
+        icon: FaShieldHalved,
+        title: "Cultive a resiliência",
+        description:
+          "Explorar o desconhecido pode ser desafiador. Desenvolva a resiliência para lidar com contratempos e aprender com os fracassos, transformando-os em oportunidades de crescimento.",
+      },
+      {
+        icon: FaBrain,
+        title:
+          "Aprendizado contínuo: a chave para decisões ainda mais estratégicas",
+        description:
+          "A melhor forma de consolidar sua evolução como Explorador é aprimorar sua capacidade de análise com orientação especializada. É aqui que entra a mentoria.",
+      },
+    ],
   },
   OR: {
     image: pensadorImage,
-    title: "PENSADOR",
-    description: (name: string) => `
-**Olá, ${name},**
-
-Parabéns por completar nosso quiz! Ficamos felizes em compartilhar que seu estilo de aprendizado é o **PENSADOR**.
-
-Pessoas com o perfil Pensador não se contentam com respostas fáceis. Elas buscam entender os problemas a fundo, criando modelos e teorias para analisá-los sob novas perspectivas. Essa habilidade é essencial para líderes que tomam decisões inovadoras e moldam o futuro de suas áreas.
-
-## **🌟 Você está entre mentes brilhantes!**
-
-**Albert Einstein** – A mente revolucionária por trás da teoria da relatividade, sempre questionando e desafiando os limites do conhecimento.
-
-**Stephen Hawking** – O físico teórico que desafiou as fronteiras do tempo e do espaço, com uma mente extraordinariamente analítica e criativa.
-
-Assim como eles, seu potencial está na sua capacidade de criar soluções inovadoras e bem fundamentadas. Mas será que **você está aproveitando ao máximo essa característica no seu crescimento profissional?**
-
-## **📌 Como potencializar seu estilo Pensador?**
-
-**Equilibre análise e ação**
-
-Seu processo mental profundo é uma vantagem, mas se perder em detalhes pode travar sua evolução. Estabeleça prazos para cada fase da análise e avance para a execução com mais rapidez e confiança.
-
-**Seja flexível nas soluções**
-
-Não há uma resposta única para cada desafio. Teste diferentes abordagens, adapte-se às novas informações e ajuste suas soluções conforme necessário. Sua flexibilidade será sua maior aliada na hora de acertar a fórmula perfeita.
-
-**Mentoria como catalisador de resultados**
-
-O pensamento estratégico precisa de uma base prática. Encontre mentores que possam ajudar a transformar suas ideias em ações eficazes. Ter alguém com mais experiência para desafiar suas perspectivas e sugerir melhorias vai acelerar sua jornada para o sucesso.
-    `,
+    name: "Pensador",
+    description:
+      "Pessoas com o perfil Pensador não se contentam com respostas fáceis. Elas buscam entender os problemas a fundo, criando modelos e teorias para analisá-los sob novas perspectivas. Essa habilidade é essencial para líderes que tomam decisões inovadoras e moldam o futuro de suas áreas.",
+    personality: [
+      {
+        image: albert,
+        name: "Albert Einstein",
+        description:
+          "A mente revolucionária por trás da teoria da relatividade, sempre questionando e desafiando os limites do conhecimento.",
+      },
+      {
+        image: stephen,
+        name: "Stephen Hawking",
+        description:
+          "O físico teórico que desafiou as fronteiras do tempo e do espaço, com uma mente extraordinariamente analítica e criativa.",
+      },
+    ],
+    recomendations: [
+      {
+        icon: FaRocket,
+        title: "Equilibre análise e ação",
+        description:
+          "Seu processo mental profundo é uma vantagem, mas se perder em detalhes pode travar sua evolução. Estabeleça prazos para cada fase da análise e avance para a execução com mais rapidez e confiança.",
+      },
+      {
+        icon: FaPuzzlePiece,
+        title: "Seja flexível nas soluções",
+        description:
+          "Não há uma resposta única para cada desafio. Teste diferentes abordagens, adapte-se às novas informações e ajuste suas soluções conforme necessário. Sua flexibilidade será sua maior aliada na hora de acertar a fórmula perfeita.",
+      },
+      {
+        icon: FaBrain,
+        title:
+          "Aprendizado contínuo: a chave para decisões ainda mais estratégicas",
+        description:
+          "A melhor forma de consolidar sua evolução como Pensador é aprimorar sua capacidade de análise com orientação especializada. É aqui que entra a mentoria.",
+      },
+    ],
   },
   EA: {
     image: executorImage,
-    title: "EXECUTOR",
-    description: (name: string) => `
-**Olá, ${name},**
-
-Parabéns por completar nosso quiz! Ficamos felizes em compartilhar que seu estilo de aprendizado é o **EXECUTOR**.
-
-Pessoas com o perfil Executor são conhecidas por sua capacidade de transformar ideias em ação. Elas são práticas, focadas e determinadas, sempre buscando resultados concretos. Essa habilidade é essencial para líderes que precisam entregar resultados de forma eficiente e eficaz.
-
-## **🌟 Você está entre mentes brilhantes!**
-
-**Walt Disney** – O visionário que transformou sonhos em realidade, criando um império de entretenimento com foco na execução impecável de suas ideias.
-
-**Steve Jobs** – O visionário por trás da Apple, que transformou ideias inovadoras em produtos revolucionários com um foco implacável na execução.
-
-Assim como eles, seu potencial está na sua capacidade de transformar planos em realidade. Mas será que **você está aproveitando ao máximo essa característica no seu crescimento profissional?**
-
-## **📌 Como potencializar seu estilo Executor?**
-
-**Planeje e priorize**
-
-Sua habilidade de execução é uma força, mas sem um bom planejamento, você pode se perder em tarefas sem importância. Aprenda a priorizar suas atividades e definir metas claras para maximizar sua eficiência.
-
-**Desenvolva habilidades de liderança**
-
-Como Executor, você é naturalmente bom em fazer as coisas acontecerem. No entanto, para liderar equipes de forma eficaz, é importante desenvolver habilidades de comunicação e motivação, inspirando sua equipe a alcançar os objetivos juntos.
-
-**Mentoria como catalisador de resultados**
-
-Ter um mentor experiente pode ajudar a refinar suas habilidades de execução e liderança. Alguém que já enfrentou desafios semelhantes pode oferecer insights valiosos e ajudar a acelerar seu crescimento profissional.
-`,
+    name: "Executor",
+    description:
+      "Pessoas com o perfil Executor são conhecidas por sua capacidade de transformar ideias em ação. Elas são práticas, focadas e determinadas, sempre buscando resultados concretos. Essa habilidade é essencial para líderes que precisam entregar resultados de forma eficiente e eficaz.",
+    personality: [
+      {
+        image: walt,
+        name: "Walt Disney",
+        description:
+          "O visionário que transformou sonhos em realidade, criando um império de entretenimento com foco na execução impecável de suas ideias.",
+      },
+      {
+        image: steve,
+        name: "Steve Jobs",
+        description:
+          "O visionário por trás da Apple, que transformou ideias inovadoras em produtos revolucionários com um foco implacável na execução.",
+      },
+    ],
+    recomendations: [
+      {
+        icon: FaHourglassHalf,
+        title: "Planeje e priorize",
+        description:
+          "Sua habilidade de execução é uma força, mas sem um bom planejamento, você pode se perder em tarefas sem importância. Aprenda a priorizar suas atividades e definir metas claras para maximizar sua eficiência.",
+      },
+      {
+        icon: FaRocket,
+        title: "Desenvolva habilidades de liderança",
+        description:
+          "Como Executor, você é naturalmente bom em fazer as coisas acontecerem. No entanto, para liderar equipes de forma eficaz, é importante desenvolver habilidades de comunicação e motivação, inspirando sua equipe a alcançar os objetivos juntos.",
+      },
+      {
+        icon: FaBrain,
+        title:
+          "Aprendizado contínuo: a chave para decisões ainda mais estratégicas",
+        description:
+          "A melhor forma de consolidar sua evolução como Executor é aprimorar sua capacidade de análise com orientação especializada. É aqui que entra a mentoria.",
+      },
+    ],
   },
 };

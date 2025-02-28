@@ -17,10 +17,10 @@ export const PersonalityCard = ({ personality }: PersonalityCardProps) => {
         />
       </div>
       <div className="space-y-3">
-        <h3 className="text-3xl font-semibold text-background">
+        <h3 className="text-3xl text-center font-semibold text-background">
           {personality.name}
         </h3>
-        <p className="text-lg font-normal text-background">
+        <p className="text-lg font-normal text-background text-justify">
           {personality.description}
         </p>
       </div>

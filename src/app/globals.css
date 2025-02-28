@@ -107,6 +107,6 @@
   }
 
   .section-title {
-    @apply text-center text-3xl font-bold md:text-4xl;
+    @apply text-center uppercase text-3xl font-bold md:text-4xl;
   }
 }

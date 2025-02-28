@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const Header = () => {
   return (
-    <header className="border-b border-muted/20 shadow-sm">
+    <header className="border-b border-yellow-500 shadow-sm">
       <div className="wrapper flex items-center justify-center py-10">
         <Image
           alt="Logo eMentor"

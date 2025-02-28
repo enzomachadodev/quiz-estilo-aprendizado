@@ -67,7 +67,7 @@
   }
 
   body {
-    @apply min-h-screen overscroll-none bg-radial-purple font-sans font-light text-foreground antialiased transition-all duration-500 ease-in-out;
+    @apply min-h-screen overscroll-none bg-radial-purple font-sans text-foreground antialiased transition-all duration-500 ease-in-out;
     /* font-feature-settings: "rlig" 1, "calt" 1; */
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
@@ -104,5 +104,9 @@
 
   .wrapper {
     @apply mx-auto w-full max-w-screen-xl px-8 sm:px-8;
+  }
+
+  .section-title {
+    @apply text-center text-3xl font-bold md:text-4xl;
   }
 }

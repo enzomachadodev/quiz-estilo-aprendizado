@@ -24,7 +24,7 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#6D01AB",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -63,6 +63,19 @@ export default {
       backgroundImage: {
         "radial-purple":
           "radial-gradient(farthest-corner at 50% 0%, #a200ff 0%, #4C0177 100%)",
+      },
+      animation: {
+        shimmer: "shimmer 2s linear infinite",
+      },
+      keyframes: {
+        shimmer: {
+          from: {
+            backgroundPosition: "0 0",
+          },
+          to: {
+            backgroundPosition: "-200% 0",
+          },
+        },
       },
     },
   },

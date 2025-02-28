@@ -94,7 +94,7 @@ export const Quiz = () => {
       if (state.quizResult) {
         const res = await saveLeadResult({
           ...values,
-          result: state.quizResult.title,
+          result: state.quizResult.name,
           ...state.score,
         });
         if (!res.success) {

@@ -75,7 +75,7 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
 
   const handleShareButton = () => {
     navigator.clipboard.writeText(
-      `Descobri que meu perfil de aprendizagem é ${quizResult.name}! Descubra o seu: https://seusite.com/quiz`,
+      `Descobri que meu perfil de aprendizagem é ${quizResult.name}! Descubra o seu: https://quiz.e-mentor.com.br/`,
     );
     sendGAEvent("conversion", "share", {
       shareResult: quizResult.name,
@@ -109,10 +109,10 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
             <p className="lg:text-xl">{quizResult.description}</p>
             <Button
               variant="outline"
-              className="mt-4 w-fit"
+              className="mt-8 inline-flex h-14 w-fit animate-shimmer items-center justify-center rounded-xl border border-yellow-400 bg-[linear-gradient(110deg,#FACC15,45%,#FDE587,55%,#FACC15)] bg-[length:200%_100%] px-6 text-xl font-semibold text-black shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-yellow-50"
               onClick={handleShareButton}
             >
-              <Share className="mr-2 h-4 w-4" /> Compartilhar meu resultado
+              <Share className="mr-2 size-6" /> Compartilhar meu resultado
             </Button>
           </div>
         </div>

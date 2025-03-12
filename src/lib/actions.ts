@@ -26,6 +26,7 @@ const getSheet = async () => {
   return doc.sheetsByIndex[0];
 };
 
+//Função para salvar as informações do Lead e o Resultado do teste (Formulário após o quiz antes de ver o resultado)
 export const saveLeadResult = async (input: LeadResultSchema) => {
   const validatedFields = leadResultSchema.safeParse(input);
 
@@ -117,6 +118,7 @@ export const saveLeadResult = async (input: LeadResultSchema) => {
   }
 };
 
+//Função utilizada para salvar o lead na planilha ainda sem o resultado (Antes de iniciar o quiz)
 export const saveLead = async (input: LeadSchema) => {
   const validatedFields = leadSchema.safeParse(input);
 
@@ -171,6 +173,7 @@ export const saveLead = async (input: LeadSchema) => {
   }
 };
 
+//Função utilizada para atualizar as informações do lead ja registrado na planilha (Após obter o resultado do teste)
 export const updateLeadResult = async (input: UpdateLeadResultSchema) => {
   const validatedFields = updateLeadResultSchema.safeParse(input);
 

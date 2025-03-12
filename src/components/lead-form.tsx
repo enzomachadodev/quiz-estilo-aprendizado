@@ -86,27 +86,27 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
                   <FormLabel>
                     Qual é o seu cargo atual ou área de atuação?
                   </FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      disabled={loading}
-                    >
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={loading}
+                  >
+                    <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione um cargo" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Cargos</SelectLabel>
-                          {Object.values(Position).map((p) => (
-                            <SelectItem key={p} value={p}>
-                              {p}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Cargos</SelectLabel>
+                        {Object.values(Position).map((p) => (
+                          <SelectItem key={p} value={p}>
+                            {p}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -120,27 +120,27 @@ export const LeadForm = ({ onSubmit, loading = false }: LeadFormProps) => {
                   <FormLabel>
                     Há quanto tempo você ocupa essa posição?
                   </FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      disabled={loading}
-                    >
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={loading}
+                  >
+                    <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione uma período" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Cargos</SelectLabel>
-                          {Object.values(Experience).map((e) => (
-                            <SelectItem key={e} value={e}>
-                              {e}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Cargos</SelectLabel>
+                        {Object.values(Experience).map((e) => (
+                          <SelectItem key={e} value={e}>
+                            {e}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

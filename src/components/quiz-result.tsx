@@ -1,16 +1,23 @@
 "use client";
 
-import Image from "next/image";
-import { PlanKey, ResultData } from "@/lib/types";
-import { plans } from "@/lib/data";
-import { LeadSchema } from "@/lib/validation";
-import { PricingCard } from "./pricing-card";
-import { RecomendationCard } from "./recomendation-card";
-import { PersonalityCard } from "./personality-card";
-import { ActionButton } from "./action-button";
-import { Button } from "./ui/button";
-import { FaWhatsapp } from "react-icons/fa6";
 import Link from "next/link";
+import Image from "next/image";
+
+import { useEffect } from "react";
+
+import { FaWhatsapp } from "react-icons/fa6";
+import { sendGAEvent } from "@next/third-parties/google";
+
+import { plans } from "@/lib/data";
+import { debounce } from "@/lib/utils";
+import { LeadSchema } from "@/lib/validation";
+import { PlanKey, ResultData } from "@/lib/types";
+
+import { Button } from "./ui/button";
+import { PricingCard } from "./pricing-card";
+import { ActionButton } from "./action-button";
+import { PersonalityCard } from "./personality-card";
+import { RecomendationCard } from "./recomendation-card";
 
 interface QuizResultProps {
   leadData: LeadSchema;
@@ -30,6 +37,38 @@ const positionToPlanMap = new Map<string, PlanKey>([
 export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
   const planKey = positionToPlanMap.get(leadData.position) || "black";
   const leadPlan = plans[planKey];
+
+  useEffect(() => {
+    sendGAEvent("view", "resultPage", {
+      resultType: quizResult.name,
+      planSuggested: leadPlan.title,
+    });
+
+    // Rastrear até onde o usuário rola a página
+    const scrollTracker = debounce(() => {
+      const scrollPercent = Math.round(
+        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+          100,
+      );
+      if (scrollPercent % 25 === 0) {
+        // Rastrear a cada 25% de rolagem
+        sendGAEvent("engagement", "resultPageScroll", {
+          scrollDepth: scrollPercent,
+        });
+      }
+    }, 500);
+
+    window.addEventListener("scroll", scrollTracker);
+    return () => window.removeEventListener("scroll", scrollTracker);
+  }, [leadPlan.title, quizResult.name]);
+
+  const handleActionButtonClick = () => {
+    sendGAEvent("conversion", "resultActionClicked", {
+      leadName: leadData.name,
+      leadPlan: leadPlan,
+      leadResult: quizResult.name,
+    });
+  };
 
   return (
     <div className="min-h-screen w-full text-lg">
@@ -155,7 +194,7 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
       </section>
       <section className="w-full py-14">
         <div className="wrapper flex flex-col items-center gap-14">
-          <div className="flex w-full flex-col gap-4 rounded-3xl bg-background max-w-3xl p-6 text-center md:p-8">
+          <div className="flex w-full max-w-3xl flex-col gap-4 rounded-3xl bg-background p-6 text-center md:p-8">
             <h2 className="section-title text-primary">
               Você está pronto para levar sua jornada ao próximo nível? 🚀
             </h2>
@@ -180,6 +219,7 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
             </p>
             <ActionButton
               link={leadPlan.link}
+              onClick={handleActionButtonClick}
               className="mx-auto mt-4 w-full md:w-fit md:px-12"
             />
           </div>
@@ -193,6 +233,11 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
             size="lg"
             className="h-14 gap-3 rounded-xl bg-green-500 text-xl hover:bg-green-500/80"
             asChild
+            onClick={() => {
+              sendGAEvent("interaction", "support", {
+                link: "whatsapp",
+              });
+            }}
           >
             <Link
               href="https://api.whatsapp.com/send/?phone=5527992499687&text&type=phone_number&app_absent=0"

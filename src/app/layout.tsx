@@ -1,6 +1,8 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -60,6 +62,7 @@ export default function RootLayout({
         {children}
         <Toaster />
       </body>
+      <GoogleAnalytics gaId={process.env.GTAG_ID as string} />
     </html>
   );
 }

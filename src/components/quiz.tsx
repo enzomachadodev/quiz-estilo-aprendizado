@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useTransition } from "react";
+import { useEffect, useReducer, useTransition } from "react";
 import { Progress } from "./ui/progress";
 import { ChevronLeft } from "lucide-react";
 import { ResultData, ResultKey } from "@/lib/types";
@@ -13,6 +13,7 @@ import { QuizIntro } from "./quiz-intro";
 import { Button } from "./ui/button";
 import { saveLeadResult } from "@/lib/actions";
 import { toast } from "sonner";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const initialState = {
   hasStarted: false,
@@ -70,7 +71,52 @@ export const Quiz = () => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const [isPending, startTransition] = useTransition();
 
+  // Rastreamento da visualização inicial ao montar o componente
+  useEffect(() => {
+    sendGAEvent("view", "pageView", { page: "quizHome" });
+  }, []);
+
+  // Rastreamento de mudanças de estado para identificar a etapa atual
+  useEffect(() => {
+    if (state.hasStarted && state.currentQuestion === 0) {
+      sendGAEvent("view", "quizStarted", { step: "firstQuestion" });
+    } else if (state.quizResult && !state.leadData) {
+      sendGAEvent("view", "leadForm", {
+        quizCompleted: true,
+        result: state.quizResult.name,
+      });
+    }
+  }, [
+    state.hasStarted,
+    state.currentQuestion,
+    state.quizResult,
+    state.leadData,
+  ]);
+
+  // Rastreamento da progressão nas perguntas
+  useEffect(() => {
+    if (state.currentQuestion > 0) {
+      sendGAEvent("progress", "questionAnswered", {
+        questionNumber: state.currentQuestion,
+        totalQuestions: quizQuestions.length,
+        percentComplete: Math.round(
+          (state.currentQuestion / quizQuestions.length) * 100,
+        ),
+      });
+    }
+  }, [state.currentQuestion]);
+
+  const handleStartQuiz = () => {
+    sendGAEvent("interaction", "startQuizClicked", {});
+    dispatch({ type: "START_QUIZ" });
+  };
+
   const handleAnswer = async (value: ResultKey) => {
+    sendGAEvent("interaction", "questionAnswered", {
+      questionNumber: state.currentQuestion + 1,
+      answer: value,
+    });
+
     const updatedScore = {
       ...state.score,
       [value]: state.score[value] + 1,
@@ -85,11 +131,32 @@ export const Quiz = () => {
 
       const resultData = quizResults[resultKey];
 
+      // Rastreamento de conclusão do quiz
+      sendGAEvent("achievement", "quizCompleted", {
+        resultType: resultKey,
+        resultName: resultData.name,
+        //TODO: timeToComplete: calculateTimeSpent() função  para medir o tempo
+      });
+
       dispatch({ type: "SET_RESULT", payload: resultData });
     }
   };
 
+  const handleBack = () => {
+    // Rastreamento de clique no botão voltar
+    sendGAEvent("interaction", "backButtonClicked", {
+      fromQuestion: state.currentQuestion,
+    });
+
+    dispatch({ type: "GO_BACK" });
+  };
+
   const handleSubmitLeadForm = async (values: LeadSchema) => {
+    // Rastreamento de tentativa de envio do formulário
+    sendGAEvent("interaction", "leadFormSubmitted", {
+      hasResult: !!state.quizResult,
+    });
+
     startTransition(async () => {
       if (state.quizResult) {
         const res = await saveLeadResult({
@@ -100,20 +167,44 @@ export const Quiz = () => {
         if (!res.success) {
           console.error("Erro na API: ", res.error);
           toast.error(res.error || "Erro desconhecido.");
+
+          // Rastrear erro no envio
+          sendGAEvent("error", "leadFormError", {
+            errorMessage: res.error || "Erro desconhecido",
+          });
           return;
         }
+
+        // Rastrear sucesso no envio do formulário
+        sendGAEvent("conversion", "leadCaptured", {
+          resultType: state.quizResult.name,
+        });
 
         dispatch({ type: "SET_LEAD_DATA", payload: values });
       } else {
         console.error("Ocorreu um erro inesperado!");
+
+        // Rastreamento de erro inesperado
+        sendGAEvent("error", "unexpectedError", {
+          state: JSON.stringify({
+            hasStarted: state.hasStarted,
+            hasResult: !!state.quizResult,
+            currentQuestion: state.currentQuestion,
+          }),
+        });
       }
     });
   };
 
-  const resetQuiz = () => dispatch({ type: "RESET" });
+  const resetQuiz = () => {
+    // Rastreamento de reinício do quiz
+    sendGAEvent("interaction", "quizReset", {});
+
+    dispatch({ type: "RESET" });
+  };
 
   if (!state.hasStarted) {
-    return <QuizIntro handleStart={() => dispatch({ type: "START_QUIZ" })} />;
+    return <QuizIntro handleStart={handleStartQuiz} />;
   }
 
   if (state.hasStarted && !state.leadData && state.quizResult) {
@@ -143,7 +234,7 @@ export const Quiz = () => {
             onClick={handleAnswer}
           />
           <Button
-            onClick={() => dispatch({ type: "GO_BACK" })}
+            onClick={handleBack}
             variant="ghost"
             size="sm"
             className="mx-auto flex w-fit items-center gap-0.5 text-sm font-medium text-background hover:bg-background/10 hover:text-background"

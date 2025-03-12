@@ -4,8 +4,9 @@ import { ActionButton } from "./action-button";
 
 interface PricingCardProps {
   plan: PlanData;
+  onClick?: () => void;
 }
-export const PricingCard = ({ plan }: PricingCardProps) => {
+export const PricingCard = ({ plan, onClick }: PricingCardProps) => {
   return (
     <div className="relative mt-14 flex w-full max-w-xl flex-col rounded-3xl border-[3px] border-primary p-6 pt-28 shadow-xl">
       <div className="absolute left-1/2 top-0 flex w-full max-w-[80%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-8 rounded-3xl bg-primary p-6 shadow-lg">
@@ -52,7 +53,7 @@ export const PricingCard = ({ plan }: PricingCardProps) => {
           </p>
         </li>
       </ul>
-      <ActionButton link={plan.link} />
+      <ActionButton link={plan.link} onClick={onClick} />
     </div>
   );
 };

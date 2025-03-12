@@ -18,6 +18,8 @@ import { PricingCard } from "./pricing-card";
 import { ActionButton } from "./action-button";
 import { PersonalityCard } from "./personality-card";
 import { RecomendationCard } from "./recomendation-card";
+import { Share } from "lucide-react";
+import { toast } from "sonner";
 
 interface QuizResultProps {
   leadData: LeadSchema;
@@ -62,12 +64,23 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
     return () => window.removeEventListener("scroll", scrollTracker);
   }, [leadPlan.title, quizResult.name]);
 
-  const handleActionButtonClick = () => {
+  const handleActionButtonClick = (buttonType: string) => {
     sendGAEvent("conversion", "resultActionClicked", {
       leadName: leadData.name,
       leadPlan: leadPlan,
       leadResult: quizResult.name,
+      button: buttonType,
     });
+  };
+
+  const handleShareButton = () => {
+    navigator.clipboard.writeText(
+      `Descobri que meu perfil de aprendizagem é ${quizResult.name}! Descubra o seu: https://seusite.com/quiz`,
+    );
+    sendGAEvent("conversion", "share", {
+      shareResult: quizResult.name,
+    });
+    toast.success("Link copiado para a área de transferência!");
   };
 
   return (
@@ -94,6 +107,13 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
               <strong>{quizResult.name}</strong>.
             </p>
             <p className="lg:text-xl">{quizResult.description}</p>
+            <Button
+              variant="outline"
+              className="mt-4 w-fit"
+              onClick={handleShareButton}
+            >
+              <Share className="mr-2 h-4 w-4" /> Compartilhar meu resultado
+            </Button>
           </div>
         </div>
       </section>
@@ -189,7 +209,10 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
           <h2 className="section-title text-primary">
             O Plano Ideal para Você!
           </h2>
-          <PricingCard plan={leadPlan} />
+          <PricingCard
+            plan={leadPlan}
+            onClick={() => handleActionButtonClick("PricingCard")}
+          />
         </div>
       </section>
       <section className="w-full py-14">
@@ -219,7 +242,7 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
             </p>
             <ActionButton
               link={leadPlan.link}
-              onClick={handleActionButtonClick}
+              onClick={() => handleActionButtonClick("mainCTA")}
               className="mx-auto mt-4 w-full md:w-fit md:px-12"
             />
           </div>

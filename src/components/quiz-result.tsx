@@ -18,8 +18,6 @@ import { PricingCard } from "./pricing-card";
 import { ActionButton } from "./action-button";
 import { PersonalityCard } from "./personality-card";
 import { RecomendationCard } from "./recomendation-card";
-import { Share } from "lucide-react";
-import { toast } from "sonner";
 
 interface QuizResultProps {
   leadData: LeadSchema;
@@ -72,17 +70,6 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
       button: buttonType,
     });
   };
-
-  const handleShareButton = () => {
-    navigator.clipboard.writeText(
-      `Descobri que meu perfil de aprendizagem é ${quizResult.name}! Descubra o seu: https://quiz.e-mentor.com.br/`,
-    );
-    sendGAEvent("conversion", "share", {
-      shareResult: quizResult.name,
-    });
-    toast.success("Link copiado para a área de transferência!");
-  };
-
   return (
     <div className="min-h-screen w-full text-lg">
       <section className="w-full py-14 text-background">
@@ -107,13 +94,6 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
               <strong>{quizResult.name}</strong>.
             </p>
             <p className="lg:text-xl">{quizResult.description}</p>
-            <Button
-              variant="outline"
-              className="mt-8 inline-flex h-14 w-fit animate-shimmer items-center justify-center rounded-xl border border-yellow-400 bg-[linear-gradient(110deg,#FACC15,45%,#FDE587,55%,#FACC15)] bg-[length:200%_100%] px-6 text-xl font-semibold text-black shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-yellow-50"
-              onClick={handleShareButton}
-            >
-              <Share className="mr-2 size-6" /> Compartilhar meu resultado
-            </Button>
           </div>
         </div>
       </section>

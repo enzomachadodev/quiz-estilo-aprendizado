@@ -57,12 +57,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
+      <GoogleAnalytics gaId={process.env.GTAG_ID as string} />
       <body className={`${font.variable}`}>
         <Header />
         {children}
         <Toaster />
       </body>
-      <GoogleAnalytics gaId={process.env.GTAG_ID as string} />
     </html>
   );
 }

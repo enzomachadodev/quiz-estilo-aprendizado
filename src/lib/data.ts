@@ -281,7 +281,7 @@ export const plans: Record<PlanKey, PlanData> = {
 export const quizResults: Record<ResultKey, ResultData> = {
   CA: {
     image: observadorImage,
-    name: "Observador",
+    name: "OBSERVADOR",
     description:
       "Pessoas com o perfil Observador têm uma capacidade única de entender contextos complexos e enxergar nuances que passam despercebidas por muitos. São atentas, reflexivas e analíticas, sempre buscando entender o cenário por completo antes de agir. Essa habilidade é um grande diferencial em qualquer área da vida – desde decisões profissionais estratégicas até a forma como lidam com desafios diários.",
     personality: [
@@ -322,7 +322,7 @@ export const quizResults: Record<ResultKey, ResultData> = {
   },
   EC: {
     image: exploradorImage,
-    name: "Explorador",
+    name: "EXPLORADOR",
     description:
       "Pessoas com o perfil Explorador são conhecidas por sua curiosidade insaciável e desejo de desbravar o desconhecido. Elas são inovadoras, aventureiras e sempre em busca de novas oportunidades. Essa habilidade é essencial para profissionais que estão começando suas carreiras e querem explorar todas as possibilidades.",
     personality: [
@@ -363,7 +363,7 @@ export const quizResults: Record<ResultKey, ResultData> = {
   },
   OR: {
     image: pensadorImage,
-    name: "Pensador",
+    name: "PENSADOR",
     description:
       "Pessoas com o perfil Pensador não se contentam com respostas fáceis. Elas buscam entender os problemas a fundo, criando modelos e teorias para analisá-los sob novas perspectivas. Essa habilidade é essencial para líderes que tomam decisões inovadoras e moldam o futuro de suas áreas.",
     personality: [
@@ -404,7 +404,7 @@ export const quizResults: Record<ResultKey, ResultData> = {
   },
   EA: {
     image: executorImage,
-    name: "Executor",
+    name: "EXECUTOR",
     description:
       "Pessoas com o perfil Executor são conhecidas por sua capacidade de transformar ideias em ação. Elas são práticas, focadas e determinadas, sempre buscando resultados concretos. Essa habilidade é essencial para líderes que precisam entregar resultados de forma eficiente e eficaz.",
     personality: [

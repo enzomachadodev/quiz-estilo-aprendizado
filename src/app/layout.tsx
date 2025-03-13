@@ -57,7 +57,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <GoogleAnalytics gaId={process.env.GTAG_ID as string} />
+      <GoogleAnalytics gaId="G-K2L3LF2GX3" debugMode={true} />
       <body className={`${font.variable}`}>
         <Header />
         {children}

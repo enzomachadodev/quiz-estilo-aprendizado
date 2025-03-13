@@ -69,6 +69,10 @@ export function sendGAEvent<
 
   if (process.env.NODE_ENV == "development") {
     console.log(`Sending GA Event: ${event}`, params);
+    console.log(`Tentando enviar evento: ${event}`, {
+      params,
+      gtagAvailable: !!window.gtag,
+    });
   }
 
   originalSendGAEvent({ event, ...params });

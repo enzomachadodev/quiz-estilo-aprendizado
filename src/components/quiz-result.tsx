@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 import { FaWhatsapp } from "react-icons/fa6";
-import { sendGAEvent } from "@next/third-parties/google";
 
 import { plans } from "@/lib/data";
 import { debounce } from "@/lib/utils";
@@ -18,6 +17,7 @@ import { PricingCard } from "./pricing-card";
 import { ActionButton } from "./action-button";
 import { PersonalityCard } from "./personality-card";
 import { RecomendationCard } from "./recomendation-card";
+import { sendGAEvent } from "@/lib/analytics";
 
 interface QuizResultProps {
   leadData: LeadSchema;
@@ -39,11 +39,6 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
   const leadPlan = plans[planKey];
 
   useEffect(() => {
-    sendGAEvent("view", "resultPage", {
-      resultType: quizResult.name,
-      planSuggested: leadPlan.title,
-    });
-
     // Rastrear até onde o usuário rola a página
     const scrollTracker = debounce(() => {
       const scrollPercent = Math.round(
@@ -63,11 +58,15 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
   }, [leadPlan.title, quizResult.name]);
 
   const handleActionButtonClick = (buttonType: string) => {
-    sendGAEvent("conversion", "resultActionClicked", {
-      leadName: leadData.name,
-      leadPlan: leadPlan,
-      leadResult: quizResult.name,
-      button: buttonType,
+    sendGAEvent("conversion", "actionButtonClicked", {
+      leadEmail: leadData.email,
+      buttonType,
+    });
+  };
+
+  const handleSupportButtonClick = () => {
+    sendGAEvent("interaction", "supportButtonClicked", {
+      leadEmail: leadData.email,
     });
   };
   return (
@@ -236,11 +235,7 @@ export const QuizResult = ({ leadData, quizResult }: QuizResultProps) => {
             size="lg"
             className="h-14 gap-3 rounded-xl bg-green-500 text-xl hover:bg-green-500/80"
             asChild
-            onClick={() => {
-              sendGAEvent("interaction", "support", {
-                link: "whatsapp",
-              });
-            }}
+            onClick={handleSupportButtonClick}
           >
             <Link
               href="https://api.whatsapp.com/send/?phone=5527992499687&text&type=phone_number&app_absent=0"

@@ -13,7 +13,7 @@ import { QuizIntro } from "./quiz-intro";
 import { Button } from "./ui/button";
 import { saveLeadResult } from "@/lib/actions";
 import { toast } from "sonner";
-import { sendGAEvent } from "@next/third-parties/google";
+import { sendGAEvent } from "@/lib/analytics";
 
 const initialState = {
   hasStarted: false,
@@ -71,50 +71,38 @@ export const Quiz = () => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
   const [isPending, startTransition] = useTransition();
 
-  // Rastreamento da visualização inicial ao montar o componente
   useEffect(() => {
-    sendGAEvent("view", "pageView", { page: "quizHome" });
-  }, []);
-
-  // Rastreamento de mudanças de estado para identificar a etapa atual
-  useEffect(() => {
-    if (state.hasStarted && state.currentQuestion === 0) {
-      sendGAEvent("view", "quizStarted", { step: "firstQuestion" });
-    } else if (state.quizResult && !state.leadData) {
-      sendGAEvent("view", "leadForm", {
-        quizCompleted: true,
-        result: state.quizResult.name,
-      });
+    if (!state.hasStarted) {
+      sendGAEvent("view", "homePage");
+    } else if (state.hasStarted && !state.leadData && state.quizResult) {
+      sendGAEvent("view", "formPage");
+    } else if (state.hasStarted && state.leadData && state.quizResult) {
+      sendGAEvent("view", "resultPage");
+    } else if (state.hasStarted && state.currentQuestion === 0) {
+      sendGAEvent("view", "quizPage");
     }
   }, [
     state.hasStarted,
-    state.currentQuestion,
-    state.quizResult,
     state.leadData,
+    state.quizResult,
+    state.currentQuestion,
   ]);
 
-  // Rastreamento da progressão nas perguntas
-  useEffect(() => {
-    if (state.currentQuestion > 0) {
-      sendGAEvent("progress", "questionAnswered", {
-        questionNumber: state.currentQuestion,
-        totalQuestions: quizQuestions.length,
-        percentComplete: Math.round(
-          (state.currentQuestion / quizQuestions.length) * 100,
-        ),
-      });
-    }
-  }, [state.currentQuestion]);
-
   const handleStartQuiz = () => {
-    sendGAEvent("interaction", "startQuizClicked", {});
+    sendGAEvent("interaction", "startQuizClicked");
     dispatch({ type: "START_QUIZ" });
   };
 
   const handleAnswer = async (value: ResultKey) => {
+    const { question, answers } = quizQuestions[state.currentQuestion];
+    const answer = answers.find((a) => a.value == value)?.label || "";
     sendGAEvent("interaction", "questionAnswered", {
-      questionNumber: state.currentQuestion + 1,
-      answer: value,
+      question,
+      answer,
+      answerValue: value,
+      percentComplete: Math.round(
+        (state.currentQuestion / quizQuestions.length) * 100,
+      ),
     });
 
     const updatedScore = {
@@ -131,11 +119,8 @@ export const Quiz = () => {
 
       const resultData = quizResults[resultKey];
 
-      // Rastreamento de conclusão do quiz
       sendGAEvent("achievement", "quizCompleted", {
-        resultType: resultKey,
         resultName: resultData.name,
-        //TODO: timeToComplete: calculateTimeSpent() função  para medir o tempo
       });
 
       dispatch({ type: "SET_RESULT", payload: resultData });
@@ -153,9 +138,7 @@ export const Quiz = () => {
 
   const handleSubmitLeadForm = async (values: LeadSchema) => {
     // Rastreamento de tentativa de envio do formulário
-    sendGAEvent("interaction", "leadFormSubmitted", {
-      hasResult: !!state.quizResult,
-    });
+    sendGAEvent("interaction", "leadFormSubmitted");
 
     startTransition(async () => {
       if (state.quizResult) {
@@ -177,7 +160,7 @@ export const Quiz = () => {
 
         // Rastrear sucesso no envio do formulário
         sendGAEvent("conversion", "leadCaptured", {
-          resultType: state.quizResult.name,
+          leadEmail: values.email,
         });
 
         dispatch({ type: "SET_LEAD_DATA", payload: values });
@@ -198,7 +181,7 @@ export const Quiz = () => {
 
   const resetQuiz = () => {
     // Rastreamento de reinício do quiz
-    sendGAEvent("interaction", "quizReset", {});
+    sendGAEvent("interaction", "quizReset");
 
     dispatch({ type: "RESET" });
   };

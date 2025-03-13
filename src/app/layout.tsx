@@ -11,7 +11,7 @@ const font = Inter({
   subsets: ["latin"],
 });
 
-const baseUrl = "https://quiz-ementor.vercel.app";
+const baseUrl = "https://quiz.e-mentor.com.br";
 
 export const metadata: Metadata = {
   title: "Descubra seu Estilo de Aprendizado | eMentor",
@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <GoogleAnalytics gaId={process.env.GTAG_ID as string} />
       <body className={`${font.variable}`}>
         <Header />

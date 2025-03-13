@@ -12,7 +12,6 @@ import {
   UpdateLeadResultSchema,
 } from "./validation";
 import { env } from "./env";
-import console from "console";
 
 const getSheet = async () => {
   const serviceAccountAuth = new JWT({

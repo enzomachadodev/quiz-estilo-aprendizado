@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "test", "production"]),
   GOOGLE_SHEET_ID: z.string().min(1, "GOOGLE_SHEET_ID não definido."),
   GOOGLE_SERVICE_ACCOUNT_EMAIL: z
     .string()

@@ -67,11 +67,13 @@ export function sendGAEvent<
 ) {
   const event = `${category}_${eventName}` as const;
 
-  console.log(`Sending GA Event: ${event}`, params);
-  console.log(`Tentando enviar evento: ${event}`, {
-    params,
-    gtagAvailable: !!window.gtag,
-  });
+  if (process.env.NODE_ENV === "development") {
+    console.log(`Sending GA Event: ${event}`, params);
+    console.log(`Tentando enviar evento: ${event}`, {
+      params,
+      gtagAvailable: !!window.gtag,
+    });
+  }
 
-  originalSendGAEvent({ event, ...params });
+  originalSendGAEvent("event", event, params);
 }
